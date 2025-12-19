@@ -180,10 +180,9 @@ function createPDFViewer() {
         const SCALE_FACTOR = 4;
         const HEIGHT_SCALE_DIVISOR = 4;
 
-        // ==================== STYLE COPYING FUNCTIONS ====================
-
-        function copyComputedStyle(source, target, scaleFactor, shouldScaleHeight = false, shouldScaleWidth = false) {
-            const cs = window.getComputedStyle(source);
+        // Exact copy from Studocu-Helper
+        function copyComputedStyle(source, target, scaleFactor, shouldScaleHeight = false, shouldScaleWidth = false, heightScaleDivisor = 4, widthScaleDivisor = 4, shouldScaleMargin = false, marginScaleDivisor = 4) {
+            const computedStyle = window.getComputedStyle(source);
 
             const normalProps = [
                 'position', 'left', 'top', 'bottom', 'right',
@@ -194,57 +193,54 @@ function createPDFViewer() {
                 'text-shadow', 'unicode-bidi', 'font-feature-settings', 'padding'
             ];
 
+            const scaleProps = ['font-size', 'line-height'];
             let styleString = '';
 
             normalProps.forEach(prop => {
-                const value = cs.getPropertyValue(prop);
+                const value = computedStyle.getPropertyValue(prop);
                 if (value && value !== 'none' && value !== 'auto' && value !== 'normal') {
                     styleString += `${prop}: ${value} !important; `;
                 }
             });
 
-            // Handle width
-            const widthValue = cs.getPropertyValue('width');
+            const widthValue = computedStyle.getPropertyValue('width');
             if (widthValue && widthValue !== 'none' && widthValue !== 'auto') {
                 if (shouldScaleWidth) {
                     const numValue = parseFloat(widthValue);
                     if (!isNaN(numValue) && numValue > 0) {
                         const unit = widthValue.replace(numValue.toString(), '');
-                        styleString += `width: ${numValue / 4}${unit} !important; `;
+                        styleString += `width: ${numValue / widthScaleDivisor}${unit} !important; `;
+                    } else {
+                        styleString += `width: ${widthValue} !important; `;
                     }
                 } else {
                     styleString += `width: ${widthValue} !important; `;
                 }
             }
 
-            // Handle height
-            const heightValue = cs.getPropertyValue('height');
+            const heightValue = computedStyle.getPropertyValue('height');
             if (heightValue && heightValue !== 'none' && heightValue !== 'auto') {
                 if (shouldScaleHeight) {
                     const numValue = parseFloat(heightValue);
                     if (!isNaN(numValue) && numValue > 0) {
                         const unit = heightValue.replace(numValue.toString(), '');
-                        styleString += `height: ${numValue / HEIGHT_SCALE_DIVISOR}${unit} !important; `;
+                        styleString += `height: ${numValue / heightScaleDivisor}${unit} !important; `;
+                    } else {
+                        styleString += `height: ${heightValue} !important; `;
                     }
                 } else {
                     styleString += `height: ${heightValue} !important; `;
                 }
             }
 
-            // Handle margins with scaling
             ['margin-top', 'margin-right', 'margin-bottom', 'margin-left'].forEach(prop => {
-                const value = cs.getPropertyValue(prop);
+                const value = computedStyle.getPropertyValue(prop);
                 if (value && value !== 'auto') {
                     const numValue = parseFloat(value);
                     if (!isNaN(numValue)) {
-                        const shouldScaleMargin = source.tagName === 'SPAN' &&
-                            source.classList &&
-                            source.classList.contains('_') &&
-                            Array.from(source.classList).some(cls => /^_(?:\d+[a-z]*|[a-z]+\d*)$/i.test(cls));
-
                         if (shouldScaleMargin && numValue !== 0) {
                             const unit = value.replace(numValue.toString(), '');
-                            styleString += `${prop}: ${numValue / scaleFactor}${unit} !important; `;
+                            styleString += `${prop}: ${numValue / marginScaleDivisor}${unit} !important; `;
                         } else {
                             styleString += `${prop}: ${value} !important; `;
                         }
@@ -252,21 +248,22 @@ function createPDFViewer() {
                 }
             });
 
-            // Scale font-size and line-height
-            ['font-size', 'line-height'].forEach(prop => {
-                const value = cs.getPropertyValue(prop);
+            scaleProps.forEach(prop => {
+                const value = computedStyle.getPropertyValue(prop);
                 if (value && value !== 'none' && value !== 'auto' && value !== 'normal') {
                     const numValue = parseFloat(value);
                     if (!isNaN(numValue) && numValue !== 0) {
                         const unit = value.replace(numValue.toString(), '');
                         styleString += `${prop}: ${numValue / scaleFactor}${unit} !important; `;
+                    } else {
+                        styleString += `${prop}: ${value} !important; `;
                     }
                 }
             });
 
-            const transformOrigin = cs.getPropertyValue('transform-origin');
+            let transformOrigin = computedStyle.getPropertyValue('transform-origin');
             if (transformOrigin) {
-                styleString += `transform-origin: ${transformOrigin} !important; `;
+                styleString += `transform-origin: ${transformOrigin} !important; -webkit-transform-origin: ${transformOrigin} !important; `;
             }
 
             styleString += 'overflow: visible !important; max-width: none !important; max-height: none !important; clip: auto !important; clip-path: none !important; ';
@@ -278,7 +275,12 @@ function createPDFViewer() {
             const hasTextClass = element.classList && element.classList.contains('t');
             const hasUnderscoreClass = element.classList && element.classList.contains('_');
 
-            copyComputedStyle(element, clone, scaleFactor, hasTextClass, hasUnderscoreClass);
+            const shouldScaleMargin = element.tagName === 'SPAN' &&
+                element.classList &&
+                element.classList.contains('_') &&
+                Array.from(element.classList).some(cls => /^_(?:\d+[a-z]*|[a-z]+\d*)$/i.test(cls));
+
+            copyComputedStyle(element, clone, scaleFactor, hasTextClass, hasUnderscoreClass, heightScaleDivisor, 4, shouldScaleMargin, scaleFactor);
 
             if (element.classList && element.classList.contains('pc')) {
                 clone.style.setProperty('transform', 'none', 'important');
@@ -299,12 +301,10 @@ function createPDFViewer() {
                     }
                 });
             }
-
             return clone;
         }
 
-        // ==================== BUILD CLEAN VIEWER ====================
-
+        // Build viewer
         const existingViewer = document.getElementById('studocu-clean-viewer');
         if (existingViewer) existingViewer.remove();
 
@@ -348,7 +348,7 @@ function createPDFViewer() {
                 const bgLayer = document.createElement('div');
                 bgLayer.className = 'layer-bg';
                 const imgClone = originalImg.cloneNode(true);
-                imgClone.style.cssText = 'width: 100%; height: 100%; object-fit: cover; object-position: top center;';
+                imgClone.style.cssText = 'width: 100%; height: 100%; object-fit: cover; object-position: top center';
                 bgLayer.appendChild(imgClone);
                 newPage.appendChild(bgLayer);
             }
@@ -372,7 +372,7 @@ function createPDFViewer() {
 
         setTimeout(() => {
             window.print();
-        }, 800);
+        }, 1000);
 
         return {
             success: true,
