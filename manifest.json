@@ -10,8 +10,7 @@
         "activeTab"
     ],
     "host_permissions": [
-        "*://*.studocu.com/*",
-        "*://*.studocu.vn/*"
+        "*://*.studocu.com/*"
     ],
     "action": {
         "default_popup": "popup.html",
@@ -30,8 +29,7 @@
     "content_scripts": [
         {
             "matches": [
-                "*://*.studocu.com/*",
-                "*://*.studocu.vn/*"
+                "*://*.studocu.com/*"
             ],
             "css": [
                 "content.css"
@@ -45,8 +43,7 @@
                 "print.css"
             ],
             "matches": [
-                "*://*.studocu.com/*",
-                "*://*.studocu.vn/*"
+                "*://*.studocu.com/*"
             ]
         }
     ]

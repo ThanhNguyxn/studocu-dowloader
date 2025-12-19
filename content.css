@@ -15,3 +15,9 @@ div[data-page-index] {
     visibility: visible !important;
     filter: none !important;
 }
+
+/* Remove watermark overlays */
+[class*="watermark"],
+[class*="premium-overlay"] {
+    display: none !important;
+}

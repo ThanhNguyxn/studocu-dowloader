@@ -49,7 +49,7 @@ document.getElementById('bypassBtn').addEventListener('click', async () => {
             }
         }
 
-        updateStatus(`✅ Deleted ${count} cookies! Reloading page...`, 'success');
+        updateStatus(`✅ Deleted ${count} cookies! Reloading...`, 'success');
         setButtonState(btn, true, '✅ Done!');
 
         // Reload the active tab
@@ -75,21 +75,32 @@ document.getElementById('pdfBtn').addEventListener('click', async () => {
     try {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-        if (!tab.url.includes('studocu.com') && !tab.url.includes('studocu.vn')) {
+        if (!tab.url.includes('studocu.com')) {
             throw new Error('Please go to a StudoCu document page first!');
         }
 
-        updateStatus('Injecting print styles...', 'processing');
+        // Step 1: Auto-scroll to load all pages
+        updateStatus('📜 Auto-scrolling to load pages...', 'processing');
 
-        // Inject print CSS
+        const scrollResult = await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: autoScrollDocument
+        });
+
+        if (scrollResult && scrollResult[0] && scrollResult[0].result) {
+            const { pageCount } = scrollResult[0].result;
+            updateStatus(`Found ${pageCount} pages. Processing...`, 'processing');
+        }
+
+        // Step 2: Inject print CSS
         await chrome.scripting.insertCSS({
             target: { tabId: tab.id },
             files: ["print.css"]
         });
 
-        updateStatus('Processing pages...', 'processing');
+        // Step 3: Create PDF viewer
+        updateStatus('🔨 Building PDF...', 'processing');
 
-        // Execute the main PDF creation script
         const results = await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: createPDFViewer
@@ -98,7 +109,7 @@ document.getElementById('pdfBtn').addEventListener('click', async () => {
         if (results && results[0] && results[0].result) {
             const { success, message, pageCount } = results[0].result;
             if (success) {
-                updateStatus(`✅ ${pageCount} pages ready! Print dialog opening...`, 'success');
+                updateStatus(`✅ ${pageCount} pages ready! Opening print...`, 'success');
                 setButtonState(btn, false, '✅ Done!');
 
                 setTimeout(() => {
@@ -118,22 +129,54 @@ document.getElementById('pdfBtn').addEventListener('click', async () => {
     }
 });
 
-// ==================== PDF VIEWER CREATION (Injected into page) ====================
+// ==================== AUTO-SCROLL FUNCTION ====================
+
+function autoScrollDocument() {
+    return new Promise((resolve) => {
+        const pages = document.querySelectorAll('div[data-page-index]');
+
+        if (pages.length === 0) {
+            resolve({ success: false, pageCount: 0 });
+            return;
+        }
+
+        let currentIndex = 0;
+        const totalPages = pages.length;
+
+        function scrollNext() {
+            if (currentIndex >= totalPages) {
+                // Scroll back to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => {
+                    resolve({ success: true, pageCount: totalPages });
+                }, 500);
+                return;
+            }
+
+            pages[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            currentIndex++;
+
+            setTimeout(scrollNext, 300);
+        }
+
+        scrollNext();
+    });
+}
+
+// ==================== PDF VIEWER CREATION ====================
 
 function createPDFViewer() {
     try {
-        // Find all page elements
         const pages = document.querySelectorAll('div[data-page-index]');
 
         if (pages.length === 0) {
             return {
                 success: false,
-                message: 'No pages found! Scroll down to load all content first.',
+                message: 'No pages found! Scroll down to load content first.',
                 pageCount: 0
             };
         }
 
-        // Constants for scaling (from Studocu-Helper)
         const SCALE_FACTOR = 4;
         const HEIGHT_SCALE_DIVISOR = 4;
 
@@ -153,7 +196,6 @@ function createPDFViewer() {
 
             let styleString = '';
 
-            // Copy normal properties
             normalProps.forEach(prop => {
                 const value = cs.getPropertyValue(prop);
                 if (value && value !== 'none' && value !== 'auto' && value !== 'normal') {
@@ -222,7 +264,6 @@ function createPDFViewer() {
                 }
             });
 
-            // Transform origin
             const transformOrigin = cs.getPropertyValue('transform-origin');
             if (transformOrigin) {
                 styleString += `transform-origin: ${transformOrigin} !important; `;
@@ -239,7 +280,6 @@ function createPDFViewer() {
 
             copyComputedStyle(element, clone, scaleFactor, hasTextClass, hasUnderscoreClass);
 
-            // Reset transform for .pc elements
             if (element.classList && element.classList.contains('pc')) {
                 clone.style.setProperty('transform', 'none', 'important');
                 clone.style.setProperty('-webkit-transform', 'none', 'important');
@@ -248,7 +288,6 @@ function createPDFViewer() {
                 clone.style.setProperty('max-height', 'none', 'important');
             }
 
-            // Clone children
             if (element.childNodes.length === 1 && element.childNodes[0].nodeType === 3) {
                 clone.textContent = element.textContent;
             } else {
@@ -266,7 +305,6 @@ function createPDFViewer() {
 
         // ==================== BUILD CLEAN VIEWER ====================
 
-        // Remove existing viewer
         const existingViewer = document.getElementById('studocu-clean-viewer');
         if (existingViewer) existingViewer.remove();
 
@@ -277,8 +315,8 @@ function createPDFViewer() {
 
         pages.forEach((page, index) => {
             const pc = page.querySelector('.pc');
-            let width = 595.3;  // A4 width fallback
-            let height = 841.9; // A4 height fallback
+            let width = 595.3;
+            let height = 841.9;
 
             if (pc) {
                 const pcStyle = window.getComputedStyle(pc);
@@ -297,7 +335,6 @@ function createPDFViewer() {
                 }
             }
 
-            // Create page container
             const newPage = document.createElement('div');
             newPage.className = 'std-page';
             newPage.id = `page-${index + 1}`;
@@ -305,7 +342,7 @@ function createPDFViewer() {
             newPage.style.width = width + 'px';
             newPage.style.height = height + 'px';
 
-            // Layer 1: Background image
+            // Background image layer
             const originalImg = page.querySelector('img.bi') || page.querySelector('img');
             if (originalImg) {
                 const bgLayer = document.createElement('div');
@@ -316,16 +353,13 @@ function createPDFViewer() {
                 newPage.appendChild(bgLayer);
             }
 
-            // Layer 2: Text layer (for selectable text in PDF)
+            // Text layer
             const originalPc = page.querySelector('.pc');
             if (originalPc) {
                 const textLayer = document.createElement('div');
                 textLayer.className = 'layer-text';
                 const pcClone = deepCloneWithStyles(originalPc, SCALE_FACTOR, HEIGHT_SCALE_DIVISOR);
-
-                // Hide images in text layer
                 pcClone.querySelectorAll('img').forEach(img => img.style.display = 'none');
-
                 textLayer.appendChild(pcClone);
                 newPage.appendChild(textLayer);
             }
@@ -334,10 +368,8 @@ function createPDFViewer() {
             successCount++;
         });
 
-        // Add viewer to document
         document.body.appendChild(viewerContainer);
 
-        // Trigger print dialog after short delay
         setTimeout(() => {
             window.print();
         }, 800);
