@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "StudoCu Downloader",
     "description": "📚 Download documents from StudoCu as PDF - Bypass blur & watermark, export with selectable text!",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "ThanhNguyxn",
     "permissions": [
         "cookies",
@@ -10,7 +10,57 @@
         "activeTab"
     ],
     "host_permissions": [
-        "*://*.studocu.com/*"
+        "*://*.studocu.com/*",
+        "*://*.studocu.vn/*",
+        "*://*.studocu.de/*",
+        "*://*.studocu.es/*",
+        "*://*.studocu.fr/*",
+        "*://*.studocu.it/*",
+        "*://*.studocu.nl/*",
+        "*://*.studocu.pl/*",
+        "*://*.studocu.pt/*",
+        "*://*.studocu.co.uk/*",
+        "*://*.studocu.id/*",
+        "*://*.studocu.ph/*",
+        "*://*.studocu.com.br/*",
+        "*://*.studocu.com.mx/*",
+        "*://*.studocu.com.ar/*",
+        "*://*.studocu.cl/*",
+        "*://*.studocu.co/*",
+        "*://*.studocu.pe/*",
+        "*://*.studocu.in/*",
+        "*://*.studocu.com.au/*",
+        "*://*.studocu.ca/*",
+        "*://*.studocu.za/*",
+        "*://*.studocu.se/*",
+        "*://*.studocu.no/*",
+        "*://*.studocu.dk/*",
+        "*://*.studocu.fi/*",
+        "*://*.studocu.at/*",
+        "*://*.studocu.ch/*",
+        "*://*.studocu.be/*",
+        "*://*.studocu.ie/*",
+        "*://*.studocu.sg/*",
+        "*://*.studocu.my/*",
+        "*://*.studocu.th/*",
+        "*://*.studocu.ae/*",
+        "*://*.studocu.za/*",
+        "*://*.studocu.ng/*",
+        "*://*.studocu.ke/*",
+        "*://*.studocu.eg/*",
+        "*://*.studocu.pk/*",
+        "*://*.studocu.bd/*",
+        "*://*.studocu.kr/*",
+        "*://*.studocu.jp/*",
+        "*://*.studocu.tw/*",
+        "*://*.studocu.hk/*",
+        "*://*.studocu.ru/*",
+        "*://*.studocu.ua/*",
+        "*://*.studocu.cz/*",
+        "*://*.studocu.hu/*",
+        "*://*.studocu.ro/*",
+        "*://*.studocu.gr/*",
+        "*://*.studocu.tr/*"
     ],
     "action": {
         "default_popup": "popup.html",
@@ -29,7 +79,22 @@
     "content_scripts": [
         {
             "matches": [
-                "*://*.studocu.com/*"
+                "*://*.studocu.com/*",
+                "*://*.studocu.vn/*",
+                "*://*.studocu.de/*",
+                "*://*.studocu.es/*",
+                "*://*.studocu.fr/*",
+                "*://*.studocu.it/*",
+                "*://*.studocu.nl/*",
+                "*://*.studocu.pl/*",
+                "*://*.studocu.pt/*",
+                "*://*.studocu.co.uk/*",
+                "*://*.studocu.id/*",
+                "*://*.studocu.ph/*",
+                "*://*.studocu.com.br/*",
+                "*://*.studocu.com.mx/*",
+                "*://*.studocu.in/*",
+                "*://*.studocu.com.au/*"
             ],
             "css": [
                 "content.css"
@@ -43,7 +108,7 @@
                 "print.css"
             ],
             "matches": [
-                "*://*.studocu.com/*"
+                "*://*.studocu.*/*"
             ]
         }
     ]

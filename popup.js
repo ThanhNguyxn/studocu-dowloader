@@ -75,7 +75,7 @@ document.getElementById('pdfBtn').addEventListener('click', async () => {
     try {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-        if (!tab.url.includes('studocu.com')) {
+        if (!tab.url.includes('studocu')) {
             throw new Error('Please go to a StudoCu document page first!');
         }
 
