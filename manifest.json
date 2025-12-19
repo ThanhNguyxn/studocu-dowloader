@@ -1,0 +1,53 @@
+{
+    "manifest_version": 3,
+    "name": "StudoCu Downloader",
+    "description": "📚 Download documents from StudoCu as PDF - Bypass blur & watermark, export with selectable text!",
+    "version": "1.0.0",
+    "author": "ThanhNguyxn",
+    "permissions": [
+        "cookies",
+        "scripting",
+        "activeTab"
+    ],
+    "host_permissions": [
+        "*://*.studocu.com/*",
+        "*://*.studocu.vn/*"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "StudoCu Downloader",
+        "default_icon": {
+            "16": "icons/icon16.svg",
+            "48": "icons/icon48.svg",
+            "128": "icons/icon128.svg"
+        }
+    },
+    "icons": {
+        "16": "icons/icon16.svg",
+        "48": "icons/icon48.svg",
+        "128": "icons/icon128.svg"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.studocu.com/*",
+                "*://*.studocu.vn/*"
+            ],
+            "css": [
+                "content.css"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "print.css"
+            ],
+            "matches": [
+                "*://*.studocu.com/*",
+                "*://*.studocu.vn/*"
+            ]
+        }
+    ]
+}

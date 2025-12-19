@@ -1,0 +1,17 @@
+/* Content CSS - injected at document_start to help with blur bypass */
+
+/* Remove common blur overlays */
+.blur-overlay,
+[class*="blur"],
+[class*="paywall"],
+[class*="overlay"]:not([class*="page"]) {
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+/* Ensure pages are visible */
+div[data-page-index] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+}
