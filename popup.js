@@ -392,5 +392,11 @@ function createPDFViewer() {
 
 // ==================== INIT ====================
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('StudoCu Downloader popup loaded');
+    // Load version from manifest.json
+    const manifest = chrome.runtime.getManifest();
+    const versionEl = document.getElementById('versionText');
+    if (versionEl && manifest.version) {
+        versionEl.textContent = 'v' + manifest.version;
+    }
+    console.log('StudoCu Downloader v' + manifest.version + ' loaded');
 });
