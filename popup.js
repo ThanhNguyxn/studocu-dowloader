@@ -155,11 +155,10 @@ function autoScrollAndLoadPages() {
 }
 
 // ==================== IMAGE-BASED PDF CREATION ====================
-// Approach from studocu-pdf-downloader - cleaner output!
+// Uses URL pattern matching for reliable page generation
 
 function extractAndCreateViewer() {
     try {
-        // Find all pages
         const pageElements = document.querySelectorAll('div[data-page-index]');
         const totalPages = pageElements.length;
 
@@ -167,84 +166,73 @@ function extractAndCreateViewer() {
             return { success: false, message: 'No pages found! Scroll down first.', pageCount: 0 };
         }
 
-        // Collect all image URLs
-        const imageUrls = [];
-        pageElements.forEach((page, index) => {
+        // Find first valid image
+        let firstUrl = null;
+        for (const page of pageElements) {
             const img = page.querySelector('img');
-            if (img && img.src) {
-                imageUrls.push({ src: img.src, index: index });
+            if (img && img.src && !img.src.startsWith('data:')) {
+                firstUrl = img.src;
+                break;
             }
-        });
-
-        if (imageUrls.length === 0) {
-            return { success: false, message: 'No images found on pages!', pageCount: 0 };
         }
 
-        // Create clean HTML viewer with just images
-        const pageHTMLs = imageUrls.map((img, i) => `
-            <div class="pdf-page" style="
-                page-break-after: ${i < imageUrls.length - 1 ? 'always' : 'auto'};
-                page-break-inside: avoid;
-                width: 100%;
-                display: flex;
-                align-items: flex-start;
-                justify-content: center;
-                margin: 0;
-                padding: 0;
-                background: white;
-            ">
-                <img src="${img.src}" style="
-                    width: 100%;
-                    height: auto;
-                    display: block;
-                " />
-            </div>
-        `).join('');
+        if (!firstUrl) {
+            return { success: false, message: 'No images found!', pageCount: 0 };
+        }
 
-        const htmlContent = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>StudoCu Document</title>
-                <style>
-                    * { margin: 0; padding: 0; box-sizing: border-box; }
-                    body { background: white; }
-                    @media print {
-                        @page { margin: 0; size: auto; }
-                        body { margin: 0; padding: 0; }
-                        .pdf-page {
-                            page-break-after: always;
-                            page-break-inside: avoid;
-                        }
-                        .pdf-page:last-child { page-break-after: auto; }
-                    }
-                </style>
-            </head>
-            <body>${pageHTMLs}</body>
-            </html>
-        `;
+        // Generate image URLs using pattern
+        let imageUrls = [];
 
-        // Create blob and open in new window for printing
-        const blob = new Blob([htmlContent], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const printWindow = window.open(url, '_blank');
+        // Try pattern: /bg1.png, /bg2.png... (hex)
+        const hexMatch = firstUrl.match(/(.*?\/bg)([0-9a-f]+)(\.png\?.*)/i);
 
-        if (printWindow) {
-            printWindow.onload = () => {
-                setTimeout(() => {
-                    printWindow.print();
-                    // Don't revoke URL immediately - user needs it for print
-                }, 500);
-            };
+        if (hexMatch) {
+            const [, prefix, , suffix] = hexMatch;
+            for (let i = 1; i <= totalPages; i++) {
+                const hexIndex = i.toString(16);
+                imageUrls.push(`${prefix}${hexIndex}${suffix}`);
+            }
+            console.log(`Pattern matched: ${totalPages} pages`);
         } else {
-            // Fallback: inject directly into page
-            injectViewerDirectly(imageUrls);
+            // Fallback: collect unique images from pages
+            const seen = new Set();
+            for (const page of pageElements) {
+                const img = page.querySelector('img');
+                if (img && img.src && !img.src.startsWith('data:') && !seen.has(img.src)) {
+                    seen.add(img.src);
+                    imageUrls.push(img.src);
+                }
+            }
+            console.log(`Direct collection: ${imageUrls.length} images`);
+        }
+
+        if (imageUrls.length === 0) {
+            return { success: false, message: 'Could not extract images!', pageCount: 0 };
+        }
+
+        // Create HTML with images
+        const pageHTMLs = imageUrls.map((src, i) => `
+<div style="page-break-after:${i < imageUrls.length - 1 ? 'always' : 'auto'};page-break-inside:avoid;margin:0;padding:0;background:white;">
+<img src="${src}" style="width:100%;height:auto;display:block;" onerror="this.parentElement.style.display='none'" />
+</div>`).join('');
+
+        const html = `<!DOCTYPE html><html><head><title>StudoCu - ${imageUrls.length} pages</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:white}
+@media print{@page{margin:0;size:auto}}</style></head><body>${pageHTMLs}</body></html>`;
+
+        // Open new window
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const win = window.open(url, '_blank');
+
+        if (win) {
+            win.onload = () => setTimeout(() => win.print(), 500);
         }
 
         return { success: true, message: 'PDF ready!', pageCount: imageUrls.length };
 
     } catch (error) {
-        console.error('PDF creation error:', error);
+        console.error('PDF error:', error);
         return { success: false, message: error.message, pageCount: 0 };
     }
 }
