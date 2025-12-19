@@ -212,8 +212,8 @@ function extractAndCreateViewer() {
 
         // Create HTML with images
         const pageHTMLs = imageUrls.map((src, i) => `
-<div style="page-break-after:${i < imageUrls.length - 1 ? 'always' : 'auto'};page-break-inside:avoid;margin:0;padding:0;background:white;">
-<img src="${src}" style="width:100%;height:auto;display:block;" onerror="this.parentElement.style.display='none'" />
+<div style="page-break-after:${i < imageUrls.length - 1 ? 'always' : 'auto'};page-break-inside:avoid;break-inside:avoid;width:100vw;height:100vh;margin:0;padding:0;background:white;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+<img src="${src}" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;" onerror="this.parentElement.style.display='none'" />
 </div>`).join('');
 
         const html = `<!DOCTYPE html><html><head><title>StudoCu - ${imageUrls.length} pages</title>
