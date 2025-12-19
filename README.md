@@ -45,7 +45,7 @@
 
 ### Step 1: Download
 
-[![Download ZIP](https://img.shields.io/badge/Download%20ZIP-4285F4?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ThanhNguyxn/studocu-dowloader/archive/refs/heads/main.zip)
+[![Download Latest Release](https://img.shields.io/badge/Download%20Latest%20Release-22c55e?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ThanhNguyxn/studocu-dowloader/releases/latest)
 
 Or clone: `git clone https://github.com/ThanhNguyxn/studocu-dowloader.git`
 
