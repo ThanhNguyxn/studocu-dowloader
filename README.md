@@ -101,13 +101,13 @@ Navigate to any document on `studocu.com` (or any other supported domain)
 ### 2️⃣ Click Extension Icon
 Click the StudoCu Downloader Pro icon in your toolbar
 
-### 3️⃣ Choose Your Action
+### 3️⃣ Click Create PDF
+Click **"Create PDF"** — the extension will:
+- ✅ Auto-scroll through all pages
+- ✅ Load all images and text content  
+- ✅ Open print dialog automatically
 
-| Button | What it does |
-|:-------|:-------------|
-| **📄 Create PDF** | Auto-scrolls and creates PDF in one click |
-| **🔓 Bypass Blur** | Clears cookies and reloads page |
-| **⬇️ Smart Scroll** | Only loads pages without creating PDF |
+> 💡 Use **"Bypass Blur"** first if document is blurred!
 
 ### 4️⃣ Save as PDF
 In print dialog:
@@ -179,7 +179,6 @@ This extension works on **200+ StudoCu domains worldwide**:
 
 ### v2.0.0
 - ✨ **Redesigned UI** — Beautiful dark theme with glassmorphism effects
-- 🚀 **Smart Scroll** — Separate button to load pages without creating PDF
 - 📊 **Progress Tracking** — See real-time loading progress
 - 🎨 **Better PDF Quality** — Improved page fitting and text layer
 - 🔧 **Enhanced Bypass** — More reliable blur removal
