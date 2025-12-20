@@ -1,11 +1,48 @@
-/* ==================== Content CSS ====================
-   Minimal - no automatic hiding
+/* ==================== StudoCu Downloader Pro - Content CSS ====================
+   Enhanced content visibility and blur bypass
    ==================== */
 
-/* Only ensure content is visible when needed */
+/* Ensure document content is always visible */
+html, body {
+    overflow: auto !important;
+    height: auto !important;
+    user-select: text !important;
+}
+
+/* Remove blur and filters from pages */
 div[data-page-index],
 .pc,
 .bi,
-img.bi {
+img.bi,
+.pf {
+    filter: none !important;
+    -webkit-filter: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Hide common paywall/overlay elements */
+#upgrade-overlay,
+.banner-wrapper,
+[class*="paywall"],
+[class*="blur-overlay"],
+[class*="premium-overlay"],
+.document-overlay,
+.upgrade-prompt,
+.subscription-banner {
+    display: none !important;
+    visibility: hidden !important;
+    z-index: -9999 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Ensure document wrapper is visible */
+#document-wrapper,
+.document-container,
+#page-container-wrapper {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     filter: none !important;
 }

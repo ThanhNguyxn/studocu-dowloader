@@ -1,14 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
   <defs>
     <linearGradient id="bg48" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#6366f1"/>
-      <stop offset="100%" style="stop-color:#8b5cf6"/>
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
     </linearGradient>
   </defs>
   <rect width="48" height="48" rx="10" fill="url(#bg48)"/>
+  <!-- Document with folded corner -->
+  <path d="M12 10h18l6 6v22c0 1-1 2-2 2H12c-1 0-2-1-2-2V12c0-1 1-2 2-2z" fill="white" opacity="0.2"/>
   <!-- Document lines -->
-  <path d="M12 14h24M12 22h18M12 30h14M12 38h10" stroke="rgba(255,255,255,0.9)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M14 18h16M14 24h12M14 30h10M14 36h6" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.95"/>
   <!-- Download badge -->
-  <circle cx="38" cy="38" r="8" fill="#22c55e"/>
-  <path d="M38 34v6M35 37l3 3 3-3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="36" cy="36" r="9" fill="#22c55e"/>
+  <path d="M36 32v6M33 35l3 3 3-3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
