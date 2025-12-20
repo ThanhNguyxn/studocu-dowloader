@@ -1,90 +1,76 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=400">
     <title>StudoCu Downloader</title>
     <link rel="stylesheet" href="popup.css">
 </head>
 
 <body>
-
-    <header>
-        <div class="logo">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
-                <polyline points="10 9 9 9 8 9" />
-            </svg>
-            <h1>StudoCu Downloader</h1>
-        </div>
-        <span class="version" id="versionText"></span>
-    </header>
-
-    <main>
-        <div class="card">
-            <!-- Create PDF Button -->
-            <button id="pdfBtn" class="btn btn-primary">
-                <div class="icon-box">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" />
-                        <line x1="12" y1="15" x2="12" y2="3" />
-                    </svg>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <div class="logo-text">
+                    <h1>StudoCu Downloader</h1>
+                    <span class="version" id="versionText">v1.1.0</span>
                 </div>
-                <div class="btn-text">
-                    <span class="btn-title">📄 Create PDF</span>
-                    <span class="btn-desc">Export with selectable text</span>
+            </div>
+        </header>
+
+        <!-- Main Actions -->
+        <main class="actions">
+            <button class="btn btn-primary" id="pdfBtn">
+                <span class="btn-icon">📄</span>
+                <div class="btn-content">
+                    <span class="btn-title">Create PDF</span>
+                    <span class="btn-desc">Auto-scroll & export document</span>
                 </div>
             </button>
 
-            <!-- Bypass Blur Button -->
-            <button id="bypassBtn" class="btn btn-success">
-                <div class="icon-box">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                        <circle cx="12" cy="12" r="3" />
-                    </svg>
-                </div>
-                <div class="btn-text">
-                    <span class="btn-title">🔓 Bypass Blur</span>
-                    <span class="btn-desc">Clear cookies & remove watermark</span>
+            <button class="btn btn-secondary" id="bypassBtn">
+                <span class="btn-icon">🔓</span>
+                <div class="btn-content">
+                    <span class="btn-title">Bypass Blur</span>
+                    <span class="btn-desc">Clear cookies & reload</span>
                 </div>
             </button>
-        </div>
+        </main>
 
         <!-- Status Bar -->
-        <div id="status" class="status-bar">
-            <span class="status-dot"></span>
-            <span id="statusText">Ready to download</span>
-        </div>
-
-        <!-- Instructions -->
-        <div class="info-box">
-            <p>📌 <strong>How to use:</strong></p>
-            <ol>
-                <li>If blurred → Click <strong>"Bypass Blur"</strong></li>
-                <li>Scroll down to load all pages</li>
-                <li>Click <strong>"Create PDF"</strong> and save</li>
-            </ol>
+        <div class="status-bar" id="status">
+            <span class="status-icon">💡</span>
+            <span class="status-text" id="statusText">Ready to download</span>
         </div>
 
         <!-- Footer -->
-        <footer>
+        <footer class="footer">
             <div class="links">
-                <a href="https://github.com/ThanhNguyxn/studocu-dowloader" target="_blank">⭐ GitHub</a>
-                <a href="https://github.com/sponsors/ThanhNguyxn" target="_blank">💖 Sponsor</a>
-                <a href="https://buymeacoffee.com/thanhnguyxn" target="_blank">☕ Coffee</a>
+                <a href="https://github.com/ThanhNguyxn/studocu-dowloader" target="_blank" class="link">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    GitHub
+                </a>
+                <a href="https://github.com/sponsors/ThanhNguyxn" target="_blank" class="link sponsor">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.565 20.565 0 008 13.393a20.561 20.561 0 003.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.75.75 0 01-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5z" />
+                    </svg>
+                    Sponsor
+                </a>
+                <a href="https://buymeacoffee.com/thanhnguyxn" target="_blank" class="link coffee">
+                    ☕ Coffee
+                </a>
             </div>
-            <p>Made with ❤️ by <a href="https://github.com/ThanhNguyxn" target="_blank">ThanhNguyxn</a></p>
+            <p class="credit">Made with ❤️ by <a href="https://github.com/ThanhNguyxn" target="_blank">ThanhNguyxn</a>
+            </p>
         </footer>
-    </main>
+    </div>
 
     <script src="popup.js"></script>
 </body>

@@ -1,23 +1,11 @@
-/* Content CSS - injected at document_start to help with blur bypass */
+/* ==================== Content CSS ====================
+   Minimal - no automatic hiding
+   ==================== */
 
-/* Remove common blur overlays */
-.blur-overlay,
-[class*="blur"],
-[class*="paywall"],
-[class*="overlay"]:not([class*="page"]) {
+/* Only ensure content is visible when needed */
+div[data-page-index],
+.pc,
+.bi,
+img.bi {
     filter: none !important;
-    opacity: 1 !important;
-}
-
-/* Ensure pages are visible */
-div[data-page-index] {
-    opacity: 1 !important;
-    visibility: visible !important;
-    filter: none !important;
-}
-
-/* Remove watermark overlays */
-[class*="watermark"],
-[class*="premium-overlay"] {
-    display: none !important;
 }

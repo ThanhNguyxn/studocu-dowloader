@@ -1,16 +1,57 @@
-/* ==================== SCREEN STYLES ==================== */
+/* ==================== Print Styles ==================== */
+@media print {
+    @page {
+        margin: 0;
+        size: auto;
+    }
+
+    body {
+        background-color: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    body>*:not(#clean-viewer-container) {
+        display: none !important;
+    }
+
+    #clean-viewer-container {
+        position: static !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .std-page {
+        margin: 0 !important;
+        margin-bottom: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        page-break-after: always !important;
+        break-after: always !important;
+        border: none !important;
+    }
+
+    .std-page:last-child {
+        page-break-after: auto !important;
+        break-after: auto !important;
+    }
+}
+
+/* ==================== Preview Styles ==================== */
 body {
     background-color: #f6f7fb !important;
     margin: 0 !important;
-    padding: 0 !important;
     overflow: auto !important;
 }
 
-body>*:not(#studocu-clean-viewer) {
+body>*:not(#clean-viewer-container) {
     display: none !important;
 }
 
-#studocu-clean-viewer {
+#clean-viewer-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -32,7 +73,6 @@ body>*:not(#studocu-clean-viewer) {
     border: none !important;
 }
 
-/* Fix black line at bottom of pages */
 .std-page::after {
     content: "";
     position: absolute;
@@ -45,6 +85,7 @@ body>*:not(#studocu-clean-viewer) {
     pointer-events: none;
 }
 
+/* ==================== Layers ==================== */
 .layer-bg {
     position: absolute;
     top: 0;
@@ -73,7 +114,6 @@ body>*:not(#studocu-clean-viewer) {
     overflow: visible !important;
 }
 
-/* Critical: Reset all transforms in text layer */
 .layer-text .pc,
 .layer-text .pc * {
     transform: none !important;
@@ -81,66 +121,4 @@ body>*:not(#studocu-clean-viewer) {
     overflow: visible !important;
     max-width: none !important;
     max-height: none !important;
-}
-
-/* ==================== PRINT STYLES ==================== */
-@media print {
-    @page {
-        margin: 0 !important;
-        padding: 0 !important;
-        size: auto;
-    }
-
-    html {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    body {
-        margin: 0 !important;
-        padding: 0 !important;
-        background-color: white !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        color-adjust: exact !important;
-    }
-
-    #studocu-clean-viewer {
-        position: static !important;
-        width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-
-    .std-page {
-        width: 100% !important;
-        height: auto !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        box-shadow: none !important;
-        page-break-after: always !important;
-        break-after: page !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-        border: none !important;
-    }
-
-    .std-page:last-child {
-        page-break-after: auto !important;
-        break-after: auto !important;
-    }
-
-    .layer-bg,
-    .layer-text {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-    }
-
-    .layer-bg img {
-        width: 100% !important;
-        height: auto !important;
-    }
 }
