@@ -8,7 +8,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/ThanhNguyxn/studocu-dowloader?style=for-the-badge&logo=github&color=yellow)](https://github.com/ThanhNguyxn/studocu-dowloader/stargazers)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-2.0.0-blue?style=for-the-badge&logo=semver&logoColor=white)](https://github.com/ThanhNguyxn/studocu-dowloader/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/ThanhNguyxn/studocu-dowloader?style=for-the-badge&logo=github&color=blue)](https://github.com/ThanhNguyxn/studocu-dowloader/releases)
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/ThanhNguyxn)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/thanhnguyxn)
 
@@ -22,7 +22,7 @@
 
 ---
 
-**✨ Bypass blur & watermark • 📄 Selectable text • 🚀 Smart auto-scroll • 🌍 40+ country domains**
+**✨ Bypass blur & watermark • 📄 Selectable text • 🚀 Smart auto-scroll • 🌍 200+ country domains**
 
 </div>
 
@@ -36,7 +36,7 @@
 | 📜 **Smart Auto-Scroll** | Intelligently loads all pages with progress tracking |
 | 📄 **High-Quality PDF** | Export with selectable text and MathType support |
 | 🎨 **Fit Content** | Pages are properly sized with no artifacts |
-| 🌍 **Global Support** | Works on 40+ StudoCu country domains (.com, .vn, .de, .fr, etc.) |
+| 🌍 **Global Support** | Works on 200+ StudoCu country domains worldwide |
 | 📊 **Progress Tracking** | Real-time progress bar during page loading |
 | 🎯 **Multiple Document Types** | Supports PDF images, text PDFs, and mixed content |
 
@@ -133,14 +133,25 @@ In print dialog:
 
 ## 🌍 Supported Domains
 
-This extension works on **40+ StudoCu country domains**:
+This extension works on **200+ StudoCu domains worldwide**:
+
+<details>
+<summary><b>Click to see all supported regions</b></summary>
 
 | Region | Domains |
 |:-------|:--------|
-| **Americas** | .com, .com.br, .com.mx, .ca, .ar, .cl, .co, .pe |
-| **Europe** | .de, .es, .fr, .it, .nl, .pl, .pt, .co.uk, .ie, .se, .no, .dk, .fi, .be, .at, .ch, .ru |
-| **Asia Pacific** | .vn, .id, .ph, .in, .com.au, .nz, .sg, .my, .jp, .kr, .cn, .tw, .hk, .th |
-| **Africa** | .za |
+| **Americas** | .com, .us, .ca, .com.mx, .mx, .gt, .hn, .sv, .ni, .cr, .pa, .cu, .do, .pr, .jm, .tt, .ht, .com.br, .br, .com.ar, .ar, .cl, .com.co, .co, .com.pe, .pe, .ve, .ec, .bo, .py, .uy |
+| **Europe** | .co.uk, .de, .es, .fr, .it, .nl, .pl, .pt, .ie, .se, .no, .dk, .fi, .be, .at, .ch, .gr, .cz, .sk, .hu, .ro, .bg, .hr, .si, .rs, .ru, .ua, .by, .lt, .lv, .ee, .is, .lu, .mt, .cy, .eu |
+| **Asia** | .vn, .id, .co.id, .ph, .in, .co.in, .sg, .my, .jp, .co.jp, .kr, .co.kr, .cn, .tw, .hk, .th, .co.th, .pk, .bd, .lk, .np, .mm, .kh, .la, .bn, .mo, .mn |
+| **Central Asia** | .kz, .uz, .tm, .kg, .tj, .az, .ge, .am |
+| **Middle East** | .tr, .com.tr, .il, .ae, .sa, .qa, .kw, .bh, .om, .jo, .lb, .iq, .ir, .sy, .ye, .af |
+| **Africa** | .co.za, .za, .eg, .com.eg, .ma, .tn, .dz, .ly, .ng, .ke, .gh, .tz, .ug, .et, .sd, .ao, .mz, .zw |
+| **Oceania** | .com.au, .au, .co.nz, .nz, .fj, .pg, .ws, .to, .vu, .sb, .nc, .pf, .gu |
+| **Generic TLDs** | .org, .net, .edu, .io, .info, .biz, .cc, .me, .tv, .xyz, .club, .pro, .vip, .top, .one, .plus |
+| **New TLDs** | .online, .site, .app, .dev, .tech, .academy, .education, .study, .school, .university, .college, .institute, .learning, .courses, .training |
+| **Other TLDs** | .world, .global, .international, .asia, .africa, .lat, .life, .live, .news, .today, .space, .store, .shop, .page, .link, .click, .zone, .center, .hub, .network, .community, .group, .team, .help, .support, .guide, .wiki, .blog, .media, .digital, .cloud, .solutions, .services, .tools, .works, .express, .direct, .now, .run, .download, .docs, .files, .resources |
+
+</details>
 
 ---
 
@@ -157,16 +168,28 @@ This extension works on **40+ StudoCu country domains**:
 
 ---
 
-## 🆕 What's New in v2.0.0
+## 🆕 Changelog
 
+<details>
+<summary><b>Click to see version history</b></summary>
+
+### v2.1.0
+- 🌍 **200+ Domains** — Support for virtually every StudoCu domain worldwide
+- 🔮 **Future-proof** — Includes new TLDs like .edu, .academy, .study, .university
+
+### v2.0.0
 - ✨ **Redesigned UI** — Beautiful dark theme with glassmorphism effects
 - 🚀 **Smart Scroll** — Separate button to load pages without creating PDF
 - 📊 **Progress Tracking** — See real-time loading progress
-- 🌍 **Extended Domains** — Support for 40+ country domains
 - 🎨 **Better PDF Quality** — Improved page fitting and text layer
 - 🔧 **Enhanced Bypass** — More reliable blur removal
 - 🖼️ **Image-based PDFs** — Full support for scanned documents
 - 📝 **Mixed Content** — Handle documents with both images and text
+
+### v1.0.0
+- 🎉 Initial release
+
+</details>
 
 ---
 
